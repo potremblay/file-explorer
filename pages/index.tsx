@@ -1,8 +1,7 @@
 import Head from 'next/head'
-import { useState } from 'react';
 import { SecureFsScopingFactory } from '../provider/secureFsScopingProvider/SecureFsScopingFactoryProvider'
 import styles from '../styles/Home.module.css'
-import DirectoryItem from '../ui/directoryItem/directoryItem'
+import FileThree from '../ui/fsThree/fsThree';
 
 
 export async function getServerSideProps() {
@@ -29,7 +28,7 @@ export default function Home(props) {
           File explorer
         </h1>
 
-        { !props.data ? 'loading' : <DirectoryItem directory={props.data}></DirectoryItem> }
+        { !props.data ? 'loading' : <FileThree root={props.data}></FileThree> }
         
       </main>
     </div>

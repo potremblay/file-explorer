@@ -1,0 +1,93 @@
+.threeRoot {
+    padding: 0;
+    list-style-type: none;
+    color: #222222;
+}
+
+.threeItem:focus {
+    outline: none;
+}
+
+.threeItemTitle {
+    padding: 0.35em;
+    display: flex;
+    user-select: none;
+}
+
+.threeItemTitle:hover,
+.threeItemTitle:focus,
+.threeItem:focus .threeItemTitle,
+.threeItem:focus-within .threeItemTitle {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+[aria-expanded] > .threeItemTitle {
+    padding-left: 1.3em;
+    position: relative;
+    cursor: pointer;
+}
+
+[aria-expanded] > .threeItemTitle:after {
+    content: '';
+    border-top: 1px solid #222222;
+    border-right: 1px solid #222222;
+
+    width: 0.5em;
+    height: 0.5em;
+    display: block;
+
+    position: absolute;
+    top: 0.7em;
+    left: 0.2em;
+    transform: rotate(45deg);
+}
+
+[aria-expanded="true"] > .threeItemTitle:after {
+    transform: rotate(135deg);
+}
+
+.threeGroup {
+    overflow: hidden;
+    max-height: 100vh;
+    list-style-type: none;
+}
+
+[aria-expanded="false"] .threeGroup {
+    max-height: 0;
+}
+
+.iconBtn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    width: 2em;
+    height: 1.8em;
+    cursor: pointer;
+    color: #000000ad;
+}
+
+.icon {
+    width: 1.4em;
+    height: 1.4em;
+}
+
+.iconBtn:hover,
+.iconBtn:focus {
+    color: #086bff;
+    outline: none;
+}
+
+.actions {
+    flex-grow: 1;
+}
+
+.actions_threeAction {
+    opacity: 0;
+    text-align: right;
+}
+
+.threeItemTitle:hover .actions_threeAction,
+.threeItemTitle:focus-within .actions_threeAction {
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
