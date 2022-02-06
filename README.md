@@ -16,12 +16,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## How it's work ?
 
 The server will take the environnement variable `DIRECTORIES` to target which folders to display.  
+
 The Frontend side is completly agnostic of the source of data from the provider. It could be real file and folder, or another type of data (exemple: categories, DB structure, etc).  
 
 We use a React.Context for each Explorer Three allow it to prevent properties drilling and communicate with their own instance of Provider.  
+
 For minimum security, the provider for each folders to display use a "scope" to validate that the file/folder operation doesn't get out of the presented folder.
 
-All the Provider definition are in `./core` which are used for the dependancy inversion of FsSecureProvider  
+All the Provider definition are in `./core` which are used for the dependancy inversion of FsSecureProvider.
+
 The folder `playground` have two purpose, it's contain the default `DIRECTORIES` folder on the `npm start` and allow to run unit test on files/folders.
 
 ## Server
