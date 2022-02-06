@@ -2,7 +2,7 @@ import { FSDirectoryProvider } from './fsDirectoryProvider';
 import { join } from 'path';
 import rimraf from 'rimraf';
 
-const baseDirPath = join(__dirname, '../../../playground');
+const baseDirPath = join(__dirname, '../../../playground/testingPlayground/directory');
 let directoryProvider: FSDirectoryProvider;
 
 beforeAll(done => {
@@ -20,7 +20,7 @@ test('initialize correctly', () => {
 test('should get a directory', async () => {
   const baseDir = await directoryProvider.getDirectory(baseDirPath)
 
-  expect(baseDir.name).toBe('playground');
+  expect(baseDir.name).toBe('directory');
 });
 
 test('should create a directory in directory', async () => {
@@ -33,8 +33,8 @@ test('should create a directory in directory', async () => {
 test('should rename a directory', async () => {
   const lastCreatedDir = await directoryProvider.getDirectory(join(baseDirPath, 'test'));
   
-  directoryProvider.renameDirectory(lastCreatedDir, 'testNumberTwo');
-  expect(lastCreatedDir.name).toBe('test');
+  const result = await directoryProvider.renameDirectory(lastCreatedDir, 'testNumberTwo');
+  expect(result.name).toBe('testNumberTwo');
 });
 
 test('should delete directory', async () => {

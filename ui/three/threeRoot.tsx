@@ -1,9 +1,9 @@
-import { Fragment } from 'react';
 import styles from './three.module.css';
 
 interface IThreeRootProps {
     title: string,
     children: JSX.Element|JSX.Element[],
+    className?: string
 }
 
 export default function ThreeRoot(props: IThreeRootProps) {
@@ -11,11 +11,11 @@ export default function ThreeRoot(props: IThreeRootProps) {
     const id = 'three-root-' + condancedTitle;
 
     return (
-        <Fragment>
-            <span id={id}>{ props.title }</span>
+        <div className={ props.className || '' }>
+            <span className={ styles.threeName } id={id}>{ props.title }</span>
             <ul role="tree" aria-labelledby={id} className={ styles.threeRoot }>
                 {props.children}
             </ul>
-        </Fragment>
+        </div>
     );
 }

@@ -3,7 +3,7 @@ import { FileAbstractProvider } from "../../../core/fileThreeProvider.abstract";
 import fs from 'fs';
 import path from "path";
 
-export class FSFileProvider extends FileAbstractProvider {
+export class FSFileProvider implements FileAbstractProvider {
     async createFile(fileName: string, parent: IDirectory, content: string): Promise<IFile> {
         return new Promise((resolve, rejects) => {
             const filePath = path.join(parent.path, fileName);

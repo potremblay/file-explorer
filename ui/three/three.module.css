@@ -2,32 +2,56 @@
     padding: 0;
     list-style-type: none;
     color: #222222;
+
+    --titlePadding: 0.35em;
+    --activeColor: #086bff;
+    --hoverColor: rgba(0, 0, 0, 0.1);
+    --selectedColor: rgb(22 128 179 / 10%);
+    --editColor: white;
+}
+
+.threeName {
+    font-size: 2.5em;
 }
 
 .threeItem:focus {
     outline: none;
 }
 
-.threeItemTitle {
-    padding: 0.35em;
+.threeItem.editMode {
+    --hoverColor: var(--editColor);
+    --selectedColor: var(--editColor);
+}
+
+.threeItemHeader {
+    padding-right: var(--titlePadding);
     display: flex;
     user-select: none;
 }
 
-.threeItemTitle:hover,
-.threeItemTitle:focus,
-.threeItem:focus .threeItemTitle,
-.threeItem:focus-within .threeItemTitle {
-    background: rgba(0, 0, 0, 0.1);
+.threeItemHeaderTitle {
+    flex-grow: 1;
+    padding-top: var(--titlePadding);
+    padding-bottom: var(--titlePadding);
 }
 
-[aria-expanded] > .threeItemTitle {
+.threeItemHeader:hover {
+    background: var(--hoverColor);
+}
+
+.threeItemHeader:focus,
+.threeItem:focus > .threeItemHeader,
+.threeItemHeader:focus-within {
+    background: var(--selectedColor);
+}
+
+[aria-expanded] > .threeItemHeader {
     padding-left: 1.3em;
     position: relative;
     cursor: pointer;
 }
 
-[aria-expanded] > .threeItemTitle:after {
+[aria-expanded] > .threeItemHeader:after {
     content: '';
     border-top: 1px solid #222222;
     border-right: 1px solid #222222;
@@ -42,7 +66,7 @@
     transform: rotate(45deg);
 }
 
-[aria-expanded="true"] > .threeItemTitle:after {
+[aria-expanded="true"] > .threeItemHeader:after {
     transform: rotate(135deg);
 }
 
@@ -73,12 +97,8 @@
 
 .iconBtn:hover,
 .iconBtn:focus {
-    color: #086bff;
+    color: var(--activeColor);
     outline: none;
-}
-
-.actions {
-    flex-grow: 1;
 }
 
 .actions_threeAction {
@@ -86,8 +106,29 @@
     text-align: right;
 }
 
-.threeItemTitle:hover .actions_threeAction,
-.threeItemTitle:focus-within .actions_threeAction {
+.threeItemHeader:hover .actions_threeAction,
+.threeItemHeader:focus-within .actions_threeAction {
     opacity: 1;
     transition: opacity 0.2s ease;
+}
+
+
+.threeItemForm {
+    display: flex;
+    flex-grow: 1;
+}
+
+.threeItemForm input {
+    padding: var(--titlePadding);
+    width: 100%;
+    background: transparent;
+}
+
+.threeItemForm input:focus {
+    border-color: var(--activeColor);
+    outline: 0;
+}
+
+.threeItemFormField {
+    flex-grow: 1;
 }

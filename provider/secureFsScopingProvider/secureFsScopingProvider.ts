@@ -1,9 +1,10 @@
 import path from "path";
 import { IDirectory, IFile } from "../../core/fileProvider.interface";
+import { FileExplorerAbstractProvider } from "../../core/fileThreeProvider.abstract";
 import { FSDirectoryProvider } from "../fsProvider/fsDirectoryProvider/fsDirectoryProvider";
 import { FSFileProvider } from "../fsProvider/fsFileProvider/fsFileProvider";
 
-export class SecureFsScopingProvider {
+export class SecureFsScopingProvider implements FileExplorerAbstractProvider  {
 
     private scope: IDirectory;
     private fileProvider: FSFileProvider;
@@ -32,6 +33,10 @@ export class SecureFsScopingProvider {
 
     async getScope(): Promise<IDirectory> {
         return this.directoryProvider.getDirectory(this.scope.path);
+    }
+
+    async refresh(): Promise<IDirectory> {
+        return this.getScope();
     }
 
     async createFile(fileName: string, parent: IDirectory, content: string): Promise<IFile> {

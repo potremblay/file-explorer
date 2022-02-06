@@ -92,6 +92,11 @@
   margin-left: 0.5rem;
 }
 
+.fileExplorer {
+  min-width: 40%;
+  margin-top: 1.5em;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;

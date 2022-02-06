@@ -4,9 +4,10 @@ import fs from 'fs';
 import path from 'path';
 import rimraf from "rimraf";
 
-export class FSDirectoryProvider extends DirectoryAbstractProvider {
+export class FSDirectoryProvider implements DirectoryAbstractProvider {
 
     async getDirectory(directoryPath: string): Promise<IDirectory> {
+        const resolvedPath = path.resolve(directoryPath);
         const name = path.basename(directoryPath);
         let children = [];
         
@@ -15,7 +16,7 @@ export class FSDirectoryProvider extends DirectoryAbstractProvider {
 
             for (let i = 0; i < directoryItemList.length; i++) {
                 const itemName = directoryItemList[i];
-                const itemPath = path.join(directoryPath, itemName);
+                const itemPath = path.join(resolvedPath, itemName);
                 const stats = fs.statSync(itemPath);
     
                 if (stats.isFile()) {
@@ -34,7 +35,7 @@ export class FSDirectoryProvider extends DirectoryAbstractProvider {
 
         return {
             name,
-            path: directoryPath,
+            path: resolvedPath,
             children,
             type: EThreeItemType.DIRECTORY
         };

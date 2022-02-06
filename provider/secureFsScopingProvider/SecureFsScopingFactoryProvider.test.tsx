@@ -1,7 +1,7 @@
 import { SecureFsScopingFactory } from "./SecureFsScopingFactoryProvider";
 import { join } from 'path';
 
-const baseDirPath = join(__dirname, '../../playground');
+const baseDirPath = join(__dirname, '../../playground/testingPlayground/scopeSecurity');
 
 describe('Secure File System Scoping Factory', () => {
     test('Access to create method to generate a Secure File System access', () => {

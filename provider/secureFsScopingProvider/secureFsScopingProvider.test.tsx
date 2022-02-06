@@ -2,13 +2,8 @@ import { SecureFsScopingFactory } from "./SecureFsScopingFactoryProvider";
 import { join } from 'path';
 import { SecureFsScopingProvider } from "./secureFsScopingProvider";
 import { FSDirectoryProvider } from "../fsProvider/fsDirectoryProvider/fsDirectoryProvider";
-import rimraf from "rimraf";
 
-const baseDirPath = join(__dirname, '../../playground');
-
-beforeAll(done => {
-    rimraf(join(baseDirPath, './*'), done);
-});
+const baseDirPath = join(__dirname, '../../playground/testingPlayground/scopeSecurity');
 
 describe('Secure File System Scoping Provider', () => {
     test('Should be able to instantiate', async () => {
@@ -39,47 +34,25 @@ describe('Secure File System Scoping Provider', () => {
         });
 
         test('Should allow to rename directory in scope', async () => {
-            let scope = await fsProvider.getScope()
-            let firstDirectoryInScope = scope.children[0] as any;
+            let dir = await fsProvider.getDirectory(join(baseDirPath, 'test'));
 
-            const newDirectory = await fsProvider.renameDirectory(firstDirectoryInScope, 'blue');
+            const renamedDirectory = await fsProvider.renameDirectory(dir, 'blue');
 
-            expect(newDirectory).toBeDefined();
-            expect(newDirectory.name).toEqual('blue');
-
-            // Verify change from scope
-            scope = await fsProvider.getScope()
-            firstDirectoryInScope = scope.children[0] as any;
-            expect(firstDirectoryInScope.name).toEqual('blue');
+            expect(renamedDirectory).toBeDefined();
+            expect(renamedDirectory.name).toEqual('blue');
         });
 
         test('Should allow to delete directory in scope', async () => {
-            let scope = await fsProvider.getScope()
-            let firstDirectoryInScope = scope.children[0] as any;
+            let dir = await fsProvider.getDirectory(join(baseDirPath, 'blue'));
 
-            await expect(fsProvider.deleteDirectory(firstDirectoryInScope)).resolves.toEqual(true);
-
-            // Test from scope
-            scope = await fsProvider.getScope();
-            expect(scope.children.length).toEqual(0);
+            await expect(fsProvider.deleteDirectory(dir)).resolves.toEqual(true);
         });
 
     });
 
     describe('Should not be allow to manipulate folder out of scope', () => {
-        const scopeForForbiddenAction = 'secure';
+        const scopeForForbiddenAction = 'haveAccess';
         let fsProvider: SecureFsScopingProvider;
-
-        beforeAll(async () => {
-            const dirProvider = new FSDirectoryProvider();
-            const playground = await dirProvider.getDirectory(baseDirPath);
-
-            // Create a folder in playground as scope.
-            // Will allow to play in the playground for forbidden action in case of error
-            await dirProvider.createDirectory(scopeForForbiddenAction, playground);
-            await dirProvider.createDirectory('directoryWhoShallNotBeRename', playground);
-            await dirProvider.createDirectory('directoryWhoShallNotBeDeleted', playground);
-        });
 
         beforeEach(async () => {
             // Take playground/test as scope

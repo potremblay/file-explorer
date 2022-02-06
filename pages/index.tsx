@@ -1,19 +1,22 @@
 import Head from 'next/head'
-import { SecureFsScopingFactory } from '../provider/secureFsScopingProvider/SecureFsScopingFactoryProvider'
+import { useEffect, useState } from 'react';
+import { serverUrl } from '../config/server';
+import { FileExplorerContextProvider } from '../context/fileExplorerContext';
 import styles from '../styles/Home.module.css'
-import FileThree from '../ui/fsThree/fsThree';
+import Three from '../ui/three/three';
 
+export default function Home() {
+  const [ providerIdList, setProviderIdList ] = useState([]);
 
-export async function getServerSideProps() {
-  const fsProvider = await SecureFsScopingFactory.createScope(process.env.DIRECTORIES);
-
-  const data = await fsProvider.getScope();
-
-  // Pass data to the page via props
-  return { props: { data } }
-}
-
-export default function Home(props) {
+  useEffect(() => {
+    fetch(serverUrl + '/api/file-explorer', {
+      method: 'GET'
+    })
+    .then(response => response.json())
+    .then(response => {
+      setProviderIdList(response.providerIdList)
+    })
+  }, [])
 
   return (
     <div className={styles.container}>
@@ -25,10 +28,15 @@ export default function Home(props) {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          File explorer
+          File explorer Project
         </h1>
 
-        { !props.data ? 'loading' : <FileThree root={props.data}></FileThree> }
+        { providerIdList && providerIdList.map(id => {
+          return <FileExplorerContextProvider key={id} providerId={ id }>
+            <Three className={ styles.fileExplorer }></Three>
+          </FileExplorerContextProvider>
+        })}
+
         
       </main>
     </div>
